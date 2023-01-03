@@ -65,4 +65,10 @@ public class ScreenshotUtils {
     } catch (IO} catch (IOException e) {
   Log.e("ScreenshotUtils", "IOException occurred while trying to save screenshot: " + e.getMessage());
 }
+Activity activity = getActivity(); // Replace with a reference to your current activity
+Bitmap screenshot = ScreenshotUtils.takeScreenshotOfScreen(activity);
+String filePath = Environment.getExternalStorageDirectory() + "/screenshot.png";
+ScreenshotUtils.saveScreenshot(screenshot, filePath);
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
