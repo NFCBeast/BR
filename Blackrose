@@ -1,0 +1,68 @@
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.view.View;
+
+public class ScreenshotUtils {
+
+  public static Bitmap takeScreenshot(View view) {
+    view.setDrawingCacheEnabled(true);
+    view.buildDrawingCache(true);
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public static Bitmap takeScreenshotOfRootView(View rootView) {
+    return takeScreenshot(rootView.getRootView());
+  }
+
+  public static Bitmap takeScreenshotOfScreen(Activity activity) {
+    View view = activity.getWindow().getDecorView().getRootView();
+    view.setDrawingCacheEnabled(true);
+    view.buildDrawingCache(true);
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public static Bitmap takeScreenshotOfView(View view) {
+    view.setDrawingCacheEnabled(true);
+    view.buildDrawingCache();
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public static Bitmap takeScreenshotOfView(View view, int width, int height) {
+    view.setDrawingCacheEnabled(true);
+    view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+        View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
+    view.layout((int) view.getX(), (int) view.getY(), (int) view.getX() + width, (int) view.getY() + height);
+    view.buildDrawingCache();
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public static Bitmap takeScreenshotOfView(View view, Rect rect) {
+    view.setDrawingCacheEnabled(true);
+    view.buildDrawingCache();
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache(), rect.left, rect.top, rect.width(), rect.height());
+    view.setDrawingCacheEnabled(false);
+    return bitmap;
+  }
+
+  public static void saveScreenshot(Bitmap bitmap, String filePath) {
+    File imagePath = new File(filePath);
+    FileOutputStream fos;
+    try {
+      fos = new FileOutputStream(imagePath);
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+      fos.flush();
+      fos.close();
+    } catch (FileNotFoundException e) {
+      Log.e("ScreenshotUtils", "FileNotFoundException occurred while trying to save screenshot: " + e.getMessage());
+    } catch (IO} catch (IOException e) {
+  Log.e("ScreenshotUtils", "IOException occurred while trying to save screenshot: " + e.getMessage());
+}
+
